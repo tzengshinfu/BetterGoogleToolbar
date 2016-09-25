@@ -1,0 +1,6 @@
+.search-button {
+    height:25.33px;width:26.33px;padding:0px 0px 0px 0px;border:none;background-color:transparent;border-radius:3px;
+}
+.search-button:hover {
+    height:25.33px;width:26.33px;padding:0px 0px 0px 0px;border:1px #c6c6c6;border-style:solid;background-color:transparent;border-radius:3px;
+}

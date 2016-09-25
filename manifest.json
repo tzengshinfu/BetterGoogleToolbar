@@ -1,7 +1,7 @@
 {
     "name": "__MSG_appName__",
     "description": "__MSG_appDesc__",
-    "version": "1.0",
+    "version": "1.1",
     "default_locale": "zh_TW",
     "minimum_chrome_version": "52",
     "manifest_version": 2,
@@ -14,8 +14,9 @@
     "content_scripts": [
     {
       "matches":        ["http://*/*", "https://*/*"],
-      "include_globs":  ["http://www.google.*/*", "https://www.google.*/*"],
+      "include_globs":  ["http://www.google.*/*", "https://www.google.*/*", "http://translate.google.*/*", "https://translate.google.*/*"],
       "js": ["content_scripts.js"],
+      "css" : ["mystyles.css"],
       "run_at": "document_start"
     }
   ]
