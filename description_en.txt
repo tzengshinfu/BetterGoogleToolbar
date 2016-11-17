@@ -1,0 +1,12 @@
+More optimized Google Toolbar, adding more popular Google services.
+
+In fact, keyword searches can also ...
+
++ link "Trends" for the direction of global concern.
++ link "Play" to find Android App, movies, books.
++ link "Translate" into a different language keywords.
++ link "Videos" to Youtube platform for more detail video search.
+
+New feature:
+v1.1
++ add "Google Search" button to search result.
