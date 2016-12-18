@@ -10,3 +10,7 @@
  新功能:
  v1.1
  ‧ 新增"Google Search"按鈕以搜尋翻譯結果。
+ 
+ Bug修正:
+ v1.1.1
+ ‧ 修正邏輯以因應Google Search頁面DOM結構改變。

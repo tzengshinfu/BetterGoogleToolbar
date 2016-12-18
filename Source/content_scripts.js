@@ -9,7 +9,7 @@ function betterGoogleToolbar() {
         //Google Search
         inputText = document.getElementById('lst-ib');
         googleToolbar = document.getElementById('hdtb-msb');
-        googleMore = document.getElementById('hdtb-more');
+        googleMore = document.getElementsByTagName('g-dropdown-menu')[0];
         googleLinks = document.getElementsByClassName('q qs');
 
         googleTranslater = document.createElement('div');
@@ -18,21 +18,21 @@ function betterGoogleToolbar() {
 
         if (inputText && googleToolbar && googleMore) {
             observer.disconnect();
-
+            let googleToolbarContainer = googleToolbar.childNodes[0];
             googleTrends.className = 'hdtb-mitem hdtb-imb';
             googleTrends.innerHTML = '<a class="q qs" href="https://www.google.com/trends/explore?date=all&q=' + inputText.value + '">' + getTrendsLinkName(pageLanguage) + '</a>';
-            googleToolbar.insertBefore(googleTrends, googleMore);
+            googleToolbarContainer.insertBefore(googleTrends, googleMore);
 
             googleTranslater.className = 'hdtb-mitem hdtb-imb';
             googleTranslater.innerHTML = '<a class="q qs" href="https://translate.google.com/#auto/en/' + inputText.value + '">' + getTranslateLinkName(pageLanguage) + '</a>';
-            googleToolbar.insertBefore(googleTranslater, googleMore);
+            googleToolbarContainer.insertBefore(googleTranslater, googleMore);
 
             googlePlay.className = 'hdtb-mitem hdtb-imb';
             googlePlay.innerHTML = '<a class="q qs" href="https://play.google.com/store/search?q=' + inputText.value + '">Play</a>';
-            googleToolbar.insertBefore(googlePlay, googleMore);
+            googleToolbarContainer.insertBefore(googlePlay, googleMore);
 
             for (let link of googleLinks) {
-                if (link.href.indexOf('tbm=vid') != -1) {
+                if (link.href.indexOf('tbm=vid') !== -1) {
                     link.href = 'https://www.youtube.com/results?search_query=' + inputText.value;
                 }
             }
