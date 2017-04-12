@@ -1,66 +1,99 @@
 function betterGoogleToolbar() {
     let inputText;
-    let googleToolbar, googleMore, googleTranslater, googlePlay, googleTrends;
+    let googleToolbar, googleMore, googleTranslater, googlePlay;
     let googleLinks;
     let pageLanguage = getPageLanguage();
     let shareButton, searchButton, searchLink, inputTextArea;
+    let luckyButton, trendButton;
+    let currentUrl = window.location.href;
 
-    let observer = new MutationObserver(function (mutations) {
-        //Google Search
-        inputText = document.getElementById('lst-ib');
-        googleToolbar = document.getElementById('hdtb-msb');
-        googleMore = document.getElementsByTagName('g-dropdown-menu')[0];
-        googleLinks = document.getElementsByClassName('q qs');
+    //Google Translate
+    if (currentUrl.includes("translate.")) {
+        let observer = new MutationObserver(function (mutations) {
+            shareButton = document.getElementById('gt-res-share');
+            inputTextArea = document.getElementById('source');
 
-        googleTranslater = document.createElement('div');
-        googlePlay = document.createElement('div');
-        googleTrends = document.createElement('div');
+            if (shareButton && inputTextArea) {
+                observer.disconnect();
+                searchButton = document.createElement('button');
+                searchButton.type = 'button';
+                searchButton.id = 'search-button';
+                searchButton.className = 'search-button';
+                searchButton.innerHTML = '<svg height="24px" viewBox="0 0 24 24" width="24px" style="opacity: .54;" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>';
+                searchButton.addEventListener('click', redirectSearchPage);
+                shareButton.insertAfter(searchButton);
+                toggleSearchButton();
 
-        if (inputText && googleToolbar && googleMore) {
-            observer.disconnect();
-            let googleToolbarContainer = googleToolbar.childNodes[0];
-            googleTrends.className = 'hdtb-mitem hdtb-imb';
-            googleTrends.innerHTML = '<a class="q qs" href="https://www.google.com/trends/explore?date=all&q=' + inputText.value + '">' + getTrendsLinkName(pageLanguage) + '</a>';
-            googleToolbarContainer.insertBefore(googleTrends, googleMore);
-
-            googleTranslater.className = 'hdtb-mitem hdtb-imb';
-            googleTranslater.innerHTML = '<a class="q qs" href="https://translate.google.com/#auto/en/' + inputText.value + '">' + getTranslateLinkName(pageLanguage) + '</a>';
-            googleToolbarContainer.insertBefore(googleTranslater, googleMore);
-
-            googlePlay.className = 'hdtb-mitem hdtb-imb';
-            googlePlay.innerHTML = '<a class="q qs" href="https://play.google.com/store/search?q=' + inputText.value + '">Play</a>';
-            googleToolbarContainer.insertBefore(googlePlay, googleMore);
-
-            for (let link of googleLinks) {
-                if (link.href.indexOf('tbm=vid') !== -1) {
-                    link.href = 'https://www.youtube.com/results?search_query=' + inputText.value;
-                }
+                inputTextArea.addEventListener('keyup', toggleSearchButton);
             }
-        }
+        });
 
-        //Google Translate
-        shareButton = document.getElementById('gt-res-share');
-        inputTextArea = document.getElementById('source');
-        if (shareButton && inputTextArea) {
-            observer.disconnect();
+        observer.observe(document, { childList: true, subtree: true });
+    }
 
-            searchButton = document.createElement('button');
-            searchButton.type = 'button';
-            searchButton.id = 'search-button';
-            searchButton.className = 'search-button';
-            searchButton.innerHTML = '<svg height="24px" viewBox="0 0 24 24" width="24px" style="opacity: .54;" xmlns="http://www.w3.org/2000/svg"><path d="M15.5 14h-.79l-.28-.27C15.41 12.59 16 11.11 16 9.5 16 5.91 13.09 3 9.5 3S3 5.91 3 9.5 5.91 16 9.5 16c1.61 0 3.09-.59 4.23-1.57l.27.28v.79l5 4.99L20.49 19l-4.99-5zm-6 0C7.01 14 5 11.99 5 9.5S7.01 5 9.5 5 14 7.01 14 9.5 11.99 14 9.5 14z"></path><path d="M0 0h24v24H0z" fill="none"></path></svg>';
-            searchButton.addEventListener('click', redirectSearchPage);
-            shareButton.insertAfter(searchButton);
-            toggleSearchButton();
+    //Google Search Result
+    if (currentUrl.includes("search=") || currentUrl.includes("newwindow=")) {
+        let observer = new MutationObserver(function (mutations) {
+            searchform = document.getElementById('searchform');
+            inputText = document.getElementById('lst-ib');
+            googleToolbar = document.getElementById('hdtb-msb');
+            googleMore = document.getElementsByTagName('g-dropdown-menu')[0];
+            googleLinks = document.getElementsByClassName('q qs');
+            googleTranslater = document.createElement('div');
+            googlePlay = document.createElement('div');
 
-            inputTextArea.addEventListener('keyup', toggleSearchButton);
-        }
-    });
+            if (inputText && googleToolbar && googleMore && searchform) {
+                observer.disconnect();
+                let googleToolbarContainer = googleToolbar.childNodes[0];
 
-    observer.observe(document, { childList: true, subtree: true });
+                googleTranslater.className = 'hdtb-mitem hdtb-imb';
+                googleTranslater.innerHTML = '<a class="q qs" href="https://translate.google.com/#auto/en/' + inputText.value + '">' + getTranslateLinkName(pageLanguage) + '</a>';
+                googleToolbarContainer.insertBefore(googleTranslater, googleMore);
+
+                googlePlay.className = 'hdtb-mitem hdtb-imb';
+                googlePlay.innerHTML = '<a class="q qs" href="https://play.google.com/store/search?q=' + inputText.value + '">Play</a>';
+                googleToolbarContainer.insertBefore(googlePlay, googleMore);
+
+                for (let link of googleLinks) {
+                    if (link.href.indexOf('tbm=vid') !== -1) {
+                        link.href = 'https://www.youtube.com/results?search_query=' + inputText.value;
+                    }
+                }
+                searchform.style.position = "fixed";
+            }
+        });
+
+        observer.observe(document, { childList: true, subtree: true });
+    }
+    //Google Search HomePage
+    else {
+        let observer = new MutationObserver(function (mutations) {
+            luckyButton = document.getElementsByName('btnI')[0];
+            inputText = document.getElementById('lst-ib');
+            if (luckyButton) {
+                observer.disconnect();
+                trendButton = document.createElement('input');
+                trendButton.type = "button";
+                trendButton.className = "trend-button";
+                trendButton.value = getTrendsLinkName(pageLanguage);
+                trendButton.addEventListener("click", function () {
+                    if (inputText.value !== "") {
+                        document.location.href = 'https://trends.google.com/trends/explore?q=' + inputText.value;
+                    }
+                    else {
+                        document.location.href = 'https://trends.google.com/trends/hottrends';
+                    }
+                }
+                );
+                luckyButton.parentNode.insertBefore(trendButton, luckyButton.nextSibling);
+            }
+        });
+
+        observer.observe(document, { childList: true, subtree: true });
+    }
 }
 
-Object.prototype.insertAfter = function(newNode) {
+Object.prototype.insertAfter = function (newNode) {
     this.parentNode.insertBefore(newNode, this.nextSibling);
 }
 
@@ -194,7 +227,7 @@ function toggleSearchButton() {
         button.style.display = 'none';
     }
     else {
-        button.style.display = 'block';        
+        button.style.display = 'block';
     }
 }
 

@@ -10,6 +10,9 @@ In fact, keyword searches can also ...
 New feature:
 v1.1
 + add "Google Search" button to search result.
+v1.2
++ add "freeze search textbox" function.
++ move "Google Trend" to Google Search Homepage.
 
 Bug fix:
 v1.1.1
