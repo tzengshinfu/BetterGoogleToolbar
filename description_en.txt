@@ -17,3 +17,5 @@ v1.2
 Bug fix:
 v1.1.1
 + fix links disappearance problem for Google Search New Style Page.
+v1.2.1
++ fix links disappearance problem for all Google Search parameters.

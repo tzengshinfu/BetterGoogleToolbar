@@ -17,3 +17,5 @@
  Bug修正:
  v1.1.1
  ‧ 修正邏輯以因應Google Search頁面DOM結構改變。
+ v1.2.1
+ ‧ 修正邏輯以判斷所有的Google Search搜尋參數。

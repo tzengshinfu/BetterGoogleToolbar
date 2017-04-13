@@ -1,21 +1,17 @@
 function betterGoogleToolbar() {
-    let inputText;
-    let googleToolbar, googleMore, googleTranslater, googlePlay;
-    let googleLinks;
     let pageLanguage = getPageLanguage();
-    let shareButton, searchButton, searchLink, inputTextArea;
-    let luckyButton, trendButton;
     let currentUrl = window.location.href;
 
     //Google Translate
     if (currentUrl.includes("translate.")) {
         let observer = new MutationObserver(function (mutations) {
-            shareButton = document.getElementById('gt-res-share');
-            inputTextArea = document.getElementById('source');
+            let shareButton = document.getElementById('gt-res-share');
+            let inputTextArea = document.getElementById('source');
 
             if (shareButton && inputTextArea) {
                 observer.disconnect();
-                searchButton = document.createElement('button');
+
+                let searchButton = document.createElement('button');
                 searchButton.type = 'button';
                 searchButton.id = 'search-button';
                 searchButton.className = 'search-button';
@@ -32,24 +28,25 @@ function betterGoogleToolbar() {
     }
 
     //Google Search Result
-    if (currentUrl.includes("search=") || currentUrl.includes("newwindow=")) {
+    if (currentUrl.includes("www.") && (currentUrl.includes("search?") || currentUrl.includes("newwindow="))) {
         let observer = new MutationObserver(function (mutations) {
-            searchform = document.getElementById('searchform');
-            inputText = document.getElementById('lst-ib');
-            googleToolbar = document.getElementById('hdtb-msb');
-            googleMore = document.getElementsByTagName('g-dropdown-menu')[0];
-            googleLinks = document.getElementsByClassName('q qs');
-            googleTranslater = document.createElement('div');
-            googlePlay = document.createElement('div');
+            let searchform = document.getElementById('searchform');
+            let inputText = document.getElementById('lst-ib');
+            let googleToolbar = document.getElementById('hdtb-msb');
+            let googleMore = document.getElementsByTagName('g-dropdown-menu')[0];
+            let googleLinks = document.getElementsByClassName('q qs');
 
-            if (inputText && googleToolbar && googleMore && searchform) {
+            if (inputText && googleToolbar && googleMore && searchform && googleLinks) {
                 observer.disconnect();
+
                 let googleToolbarContainer = googleToolbar.childNodes[0];
 
+                let googleTranslater = document.createElement('div');
                 googleTranslater.className = 'hdtb-mitem hdtb-imb';
                 googleTranslater.innerHTML = '<a class="q qs" href="https://translate.google.com/#auto/en/' + inputText.value + '">' + getTranslateLinkName(pageLanguage) + '</a>';
                 googleToolbarContainer.insertBefore(googleTranslater, googleMore);
 
+                let googlePlay = document.createElement('div');
                 googlePlay.className = 'hdtb-mitem hdtb-imb';
                 googlePlay.innerHTML = '<a class="q qs" href="https://play.google.com/store/search?q=' + inputText.value + '">Play</a>';
                 googleToolbarContainer.insertBefore(googlePlay, googleMore);
@@ -59,6 +56,7 @@ function betterGoogleToolbar() {
                         link.href = 'https://www.youtube.com/results?search_query=' + inputText.value;
                     }
                 }
+
                 searchform.style.position = "fixed";
             }
         });
@@ -68,11 +66,13 @@ function betterGoogleToolbar() {
     //Google Search HomePage
     else {
         let observer = new MutationObserver(function (mutations) {
-            luckyButton = document.getElementsByName('btnI')[0];
-            inputText = document.getElementById('lst-ib');
+            let luckyButton = document.getElementsByName('btnI')[0];
+            let inputText = document.getElementById('lst-ib');
+
             if (luckyButton) {
                 observer.disconnect();
-                trendButton = document.createElement('input');
+
+                let trendButton = document.createElement('input');
                 trendButton.type = "button";
                 trendButton.className = "trend-button";
                 trendButton.value = getTrendsLinkName(pageLanguage);
@@ -85,7 +85,8 @@ function betterGoogleToolbar() {
                     }
                 }
                 );
-                luckyButton.parentNode.insertBefore(trendButton, luckyButton.nextSibling);
+
+                luckyButton.insertAfter(trendButton);
             }
         });
 
@@ -99,6 +100,7 @@ Object.prototype.insertAfter = function (newNode) {
 
 function getTranslateLinkName(languageName) {
     let translateName;
+
     switch (languageName) {
         case "de":
             translateName = "Übersetzer";
@@ -160,6 +162,7 @@ function getTranslateLinkName(languageName) {
 
 function getTrendsLinkName(languageName) {
     let trendsName;
+
     switch (languageName) {
         case "de":
             trendsName = "Erkunden";
@@ -259,7 +262,6 @@ function redirectSearchPage() {
     let searchText = document.getElementById('result_box').innerText
     window.location.href = 'https://www.google.com/search?q=' + searchText + '&lr=lang_' + searchLanguage;
 }
-
 
 
 betterGoogleToolbar();
