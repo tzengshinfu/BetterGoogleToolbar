@@ -28,12 +28,12 @@ function betterGoogleToolbar() {
     }
 
     //Google Search Result
-    if (currentUrl.includes("www.") && (currentUrl.includes("search?") || currentUrl.includes("newwindow="))) {
+    if (currentUrl.includes("www.") && currentUrl.includes("q=")) {
         let observer = new MutationObserver(function (mutations) {
             let searchform = document.getElementById('searchform');
             let inputText = document.getElementById('lst-ib');
             let googleToolbar = document.getElementById('hdtb-msb');
-            let googleMore = document.getElementsByTagName('g-dropdown-menu')[0];
+            let googleMore = document.getElementsByTagName('g-header-menu')[0];
             let googleLinks = document.getElementsByClassName('q qs');
 
             if (inputText && googleToolbar && googleMore && searchform && googleLinks) {
