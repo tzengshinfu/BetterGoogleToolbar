@@ -15,11 +15,3 @@ v1.2
 + move "Google Trend" to Google Search Homepage.
 v1.3
 + add "freeze search type bar" function.
-
-Bug fix:
-v1.1.1
-+ fix links disappearance problem for Google Search New Style Page.
-v1.2.1
-+ fix links disappearance problem for all Google Search parameters.
-v1.2.2
-+ fix links disappearance problem for Google Search New Style Page.

@@ -37,9 +37,8 @@ function betterGoogleToolbar() {
             let googleLinks = document.getElementsByClassName('q qs');
             let topNav = document.getElementById('top_nav');
             let moreMenu = document.getElementById('hdtbMenus');
-            let appBar = document.getElementById('appbar');
 
-            if (inputText && googleToolbar && googleMore && searchform && googleLinks && topNav && moreMenu && appBar) {
+            if (inputText && googleToolbar && googleMore && searchform && googleLinks && topNav && moreMenu) {
                 observer.disconnect();
 
                 let googleToolbarContainer = googleToolbar.childNodes[0];
@@ -69,17 +68,22 @@ function betterGoogleToolbar() {
                 customTopNav.style.height = topNav.offsetHeight + 'px';
                 customTopNav.style.width = topNav.offsetWidth + 'px';
                 let toolButton = customTopNav.getElementsByClassName('hdtb-tl')[0];
+                let appBar = document.getElementById('appbar');
                 toolButton.addEventListener('click', function () {
                     document.body.scrollTop = 0;
                     if (moreMenu.className === 'hdtb-td-c') {
                         moreMenu.className = 'hdtb-td-o';
                         moreMenu.attributes['aria-expanded'].value = 'true';
-                        appBar.classList.add('hdtb-ab-o');   
+                        if (appBar !== null) {
+                            appBar.classList.add('hdtb-ab-o');
+                        }
                     }
                     else {
                         moreMenu.className = 'hdtb-td-c';
                         moreMenu.attributes['aria-expanded'].value = 'false';
-                        appBar.classList.remove('hdtb-ab-o');                                             
+                        if (appBar !== null) {
+                            appBar.classList.remove('hdtb-ab-o');
+                        }
                     }
                 });
                 document.body.appendChild(customTopNav);
