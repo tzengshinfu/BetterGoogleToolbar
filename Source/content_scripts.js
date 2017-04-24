@@ -35,8 +35,11 @@ function betterGoogleToolbar() {
             let googleToolbar = document.getElementById('hdtb-msb');
             let googleMore = document.getElementsByTagName('g-header-menu')[0];
             let googleLinks = document.getElementsByClassName('q qs');
+            let topNav = document.getElementById('top_nav');
+            let moreMenu = document.getElementById('hdtbMenus');
+            let appBar = document.getElementById('appbar');
 
-            if (inputText && googleToolbar && googleMore && searchform && googleLinks) {
+            if (inputText && googleToolbar && googleMore && searchform && googleLinks && topNav && moreMenu && appBar) {
                 observer.disconnect();
 
                 let googleToolbarContainer = googleToolbar.childNodes[0];
@@ -57,7 +60,29 @@ function betterGoogleToolbar() {
                     }
                 }
 
-                searchform.style.position = "fixed";
+                searchform.style.position = 'fixed';
+                let customTopNav = topNav.cloneNode(true);
+                customTopNav.id = 'custom_top_nav';
+                customTopNav.style.position = 'fixed';
+                customTopNav.style.zIndex = '100';
+                customTopNav.style.top = '85px';
+                customTopNav.style.height = topNav.offsetHeight + 'px';
+                customTopNav.style.width = topNav.offsetWidth + 'px';
+                let toolButton = customTopNav.getElementsByClassName('hdtb-tl')[0];
+                toolButton.addEventListener('click', function () {
+                    document.body.scrollTop = 0;
+                    if (moreMenu.className === 'hdtb-td-c') {
+                        moreMenu.className = 'hdtb-td-o';
+                        moreMenu.attributes['aria-expanded'].value = 'true';
+                        appBar.classList.add('hdtb-ab-o');   
+                    }
+                    else {
+                        moreMenu.className = 'hdtb-td-c';
+                        moreMenu.attributes['aria-expanded'].value = 'false';
+                        appBar.classList.remove('hdtb-ab-o');                                             
+                    }
+                });
+                document.body.appendChild(customTopNav);
             }
         });
 
